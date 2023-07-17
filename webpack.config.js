@@ -19,6 +19,7 @@ const config = {
     devServer: {
         open: false,
         hot: true,
+        port: 4200,
         host: 'localhost',
     },
     devtool: 'eval-cheap-module-source-map',

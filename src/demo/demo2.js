@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 // 渲染引擎
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({antialias: true, canvas: document.getElementById('canvas')});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 

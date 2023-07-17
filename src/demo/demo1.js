@@ -8,7 +8,7 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 // 渲染引擎
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true, canvas: document.getElementById('canvas') });
 // box长宽高
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 // 渲染颜色

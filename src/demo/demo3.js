@@ -120,7 +120,7 @@ function init() {
 
   // RENDERER
 
-  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer = new THREE.WebGLRenderer({ antialias: true, canvas: document.getElementById('canvas') });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.useLegacyLights = false;
