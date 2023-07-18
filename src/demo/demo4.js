@@ -4,7 +4,8 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CSS3DRenderer } from "three/addons/renderers/CSS3DRenderer.js";
 import { CSS3DObject } from "three/addons/renderers/CSS3DRenderer.js";
 import './demo4.css'
-import demo4Png from './demo4.png'
+import { setElAttrs } from "../util/dom";
+
 // 场景
 const scene = new THREE.Scene();
 
@@ -28,6 +29,8 @@ const spherical = new THREE.Spherical(); //球坐标
 
 //轨道控制器
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true
+controls.dampingFactor = 0.01
 controls.autoRotate = true; //为true时，相机自动围绕目标旋转,但必须在animation循环中调用update()
 
 var objects = []; //存放转化为3D的照片对象
@@ -106,10 +109,12 @@ function clickMouse(e) {
   }
   let tname = e.target.name; //获取点击图片的名称
   if (typeof tname == "undefined" || tname == "") {
-    //鼠标点击的不是照片
+    if (!controls.autoRotate) controls.autoRotate = true;
+    //鼠标点击的不是照片  
     let div = document.getElementById("popup");
     div.style.display = "none"; //隐藏元素
   } else {
+    controls.autoRotate = false;
     Popup(tname);
   }
 
@@ -118,21 +123,22 @@ function clickMouse(e) {
     let w = window.innerWidth;
     let h = window.innerHeight;
     let div = document.getElementById("popup");
-    div.style.display = "block"; //显示元素
-    div.style.backgroundImage = 'url(https://t7.baidu.com/it/u=3750036747,1838104742&fm=193&f=GIF)' || "url(./photo/" + tname + ".jpg)";
-    div.style.backgroundSize = "100%";
-    div.style.backgroundPosition = 'center'
-    div.style.backgroundRepeat = 'no-repeat'
-    div.style.height = h * 0.7 + "px";
-    div.style.width = h * 0.6 + "px";
-    div.style.position = "absolute";
-    div.style.left = "0px";
-    div.style.right = "0px";
-    div.style.top = "0px";
-    div.style.bottom = "0px";
-    div.style.margin = "auto"; //居中位置
-    div.style.borderRadius = "5px"; // 圆角
-  }
+    setElAttrs(div.style, {
+      display: 'block',
+      backgroundImage: 'url(https://t7.baidu.com/it/u=3750036747,1838104742&fm=193&f=GIF)' || "url(./photo/" + tname + ".jpg)",
+      backgroundSize: '100%',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      height: h * 0.7 + "px",
+      width: h * 0.6 + "px",
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      margin: 'auto',
+      borderRadius: '5px'
+    })
 }
 
 init(); //初始化并形成球体照片墙
